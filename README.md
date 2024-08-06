@@ -1,5 +1,9 @@
-## Hi there 👋 
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=alswooy&show_icons=true&theme=transparent)
+ 
+<a href="https://github.com/devxb/gitanimals">
+  <img src="https://render.gitanimals.org/farms/alswooy"/>
+</a>
+
+
 <!--
 **alswooy/alswooy** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
