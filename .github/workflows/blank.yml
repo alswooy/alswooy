@@ -1,4 +1,4 @@
-name: Update README with Giphy
+name: Update Commit History in README
 
 on:
   schedule:
@@ -9,29 +9,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repository
+      - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Fetch GIF from Giphy
-        env:
-          GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
+      - name: Fetch commit history
         run: |
-          response=$(curl -s "https://api.giphy.com/v1/gifs/random?api_key=$GIPHY_API_KEY&tag=cute&rating=g")
-          gif_url=$(echo $response | jq -r '.data.images.original.url')
-          echo "![Cute GIF]($gif_url)" > gif.md
+          commits=$(curl -s "https://api.github.com/repos/${{ github.repository }}/commits")
+          echo "# Commit History" > commit_history.md
+          echo "$commits" | jq -r '.[0:5] | .[] | "- " + .commit.message' >> commit_history.md
+
+      - name: Add Gitanimals Image to README
+        run: |
+          echo '<div align="center">' > gitanimals.md
+          echo '' >> gitanimals.md
+          echo '<a href="https://github.com/devxb/gitanimals">' >> gitanimals.md
+          echo '  <img src="https://render.gitanimals.org/farms/${{ github.repository }"/>' >> gitanimals.md
+          echo '</a>' >> gitanimals.md
+          echo '</div>' >> gitanimals.md
+          echo '' >> gitanimals.md
 
       - name: Update README
         run: |
-          cat gif.md > README.md
-          
+          cat gitanimals.md commit_history.md > README.md
+
       - name: Commit changes
         run: |
           git config --local user.name "${{ github.actor }}"
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           git add README.md
-          git commit -m "Update README with new GIF"
+          git commit -m "Update commit history and add Gitanimals image in README"
           git push
-
-      - name: Install jq
-        run: sudo apt-get install jq
-
