@@ -60,7 +60,7 @@ jobs:
 
       - name: Commit and Push changes
         env:
-          GITHUB_TOKEN: ghp_${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ghp_${{ secrets.GIT_TOKEN }}
         run: |
           git add .
           git commit -m "Update README"
